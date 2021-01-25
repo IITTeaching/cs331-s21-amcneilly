@@ -1,6 +1,8 @@
 # Change this function
 def my_palindrome():
-    return ''
+    myString = 'alexmcneilly'
+    myString = myString + myString[::-1]
+    return myString
 
 # Do not change the main method
 def main():
