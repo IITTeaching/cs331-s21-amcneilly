@@ -22,7 +22,12 @@ def captured_output():
 
 # implement this function
 def is_perfect(n):
-    pass
+    # perfect number => POSITIVE INTEGER whose value == sum of proper divisors
+    mySum = 0;
+    for nums in range(1,n):
+        if n % nums == 0:
+            mySum += nums
+    return (n==mySum)
 
 # (3 points)
 def test1():
@@ -40,7 +45,11 @@ def test1():
 
 # implement this function
 def multiples_of_3_and_5(n):
-    pass
+    fun_sum = 0
+    for r in range(1,n):
+        if r % 3 == 0 or r % 5 == 0:
+            fun_sum += r
+    return fun_sum
 
 # (3 points)
 def test2():
@@ -53,7 +62,15 @@ def test2():
 # EXERCISE 3
 #################################################################################
 def integer_right_triangles(p):
-    pass
+    # pythagorean theorem => a**2 + b**2 == c**2
+    # a <= b && c > b
+    output = list()
+    for a in range(p):
+        for b in range(p):
+            c = p - (a+b)
+            if (a**2 + b**2 == c**2) and (a <= b) and (b<c):
+                output.append((a,b,c))
+    return len(output)
 
 def test3():
     tc = unittest.TestCase()
@@ -67,7 +84,25 @@ def test3():
 
 # implement this function
 def gen_pattern(chars):
-    pass
+    width = ((((len(chars))*2)-1)*2)-1
+    linesToPrint = list()
+    reverselinesToPrint = list()
+    chars = chars[::-1]
+    for j in range(0, len(chars)):
+        if j == 0:
+            linesToPrint.append(chars[0])
+        else:
+            midString = chars[j]
+            sideString = chars[0:j:1]
+            linesToPrint.append(sideString + midString + sideString[::-1])
+    reverselinesToPrint = linesToPrint[::-1]
+    reverselinesToPrint.pop(0)
+    for k in range(0, len(linesToPrint)):
+        topPyramid = '.'.join(linesToPrint[k]).center(width, '.')
+        print(topPyramid)
+    for r in range(0, len(reverselinesToPrint)):
+        bottomPyramid = '.'.join(reverselinesToPrint[r]).center(width, '.')
+        print(bottomPyramid)
 
 def test4():
     tc = unittest.TestCase()
