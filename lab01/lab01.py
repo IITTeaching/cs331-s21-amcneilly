@@ -2,7 +2,6 @@ import unittest
 import sys
 from contextlib import contextmanager
 from io import StringIO
-import math
 
 # Written by Alex Mcneilly <amcneilly@s207.org>
 
