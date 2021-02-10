@@ -122,7 +122,7 @@ def gen_passage(ngram_dict, length=100):
         line = random.choice(ngram_dict[genKey])
         # manual appending to the output
         for wiT in line:
-            output += ' ' + wiT
+            output += (' ' + wiT)
         lenCounter += len(line)
         # next genkey
         genKey = line[-1]
@@ -130,7 +130,7 @@ def gen_passage(ngram_dict, length=100):
         if genKey not in keySet:
             # setting new genKey
             genKey = random.choice(keySet)
-            output += ' ' + genKey
+            output += (' ' + genKey)
             lenCounter += 1
     return output
 
