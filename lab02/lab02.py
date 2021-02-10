@@ -2,6 +2,8 @@ from unittest import TestCase
 import random
 import urllib.request
 
+# Code Written By Alex Mcneilly <amcneilly@s207.org>
+
 ROMEO_SOLILOQUY = """
         But, soft! what light through yonder window breaks?
         It is the east, and Juliet is the sun.
@@ -104,8 +106,33 @@ def test1_2():
 # EXERCISE 2
 ################################################################################
 # Implement this function
+
+# returns string (make a list, call join at the end?)
 def gen_passage(ngram_dict, length=100):
-    pass
+    # set of sorted keys in the passed dictionary
+    keySet = sorted(ngram_dict.keys())
+    # random key chosen
+    genKey = random.choice(keySet)
+    #output list generated
+    output = genKey[:]
+    #for while loop
+    lenCounter = 1
+    while lenCounter < length:
+        # getting random tuple from ngram_dict[genKey] // returns tuple --> line
+        line = random.choice(ngram_dict[genKey])
+        # manual appending to the output
+        for wiT in line:
+            output += ' ' + wiT
+        lenCounter += len(line)
+        # next genkey
+        genKey = line[-1]
+        # checking if in set
+        if genKey not in keySet:
+            # setting new genKey
+            genKey = random.choice(keySet)
+            output += ' ' + genKey
+            lenCounter += 1
+    return output
 
 # 50 Points
 def test2():
