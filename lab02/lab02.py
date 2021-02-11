@@ -2,6 +2,8 @@ from unittest import TestCase
 import random
 import urllib.request
 
+# Code Written By Alex Mcneilly <amcneilly@s207.org>
+
 ROMEO_SOLILOQUY = """
         But, soft! what light through yonder window breaks?
         It is the east, and Juliet is the sun.
@@ -33,8 +35,20 @@ ROMEO_SOLILOQUY = """
 ################################################################################
 # Implement this function
 def compute_ngrams(toks, n=2):
-    """Returns an n-gram dictionary based on the provided list of tokens."""
-    pass
+    tokdict = dict()
+
+    for jj in range(len(toks)):
+        key = toks[jj]
+        value = tuple(toks[jj+1:jj+n])
+
+        if len(value) < n-1:
+            return tokdict
+
+        if key in tokdict:
+            tokdict[key].append(value)
+        else:
+            tokdict[key] = [value]
+    return tokdict
 
 def test1():
     test1_1()
@@ -92,8 +106,33 @@ def test1_2():
 # EXERCISE 2
 ################################################################################
 # Implement this function
+
+# returns string (make a list, call join at the end?)
 def gen_passage(ngram_dict, length=100):
-    pass
+    # set of sorted keys in the passed dictionary
+    keySet = sorted(ngram_dict.keys())
+    # random key chosen
+    genKey = random.choice(keySet)
+    #output list generated
+    output = genKey[:]
+    #for while loop
+    lenCounter = 1
+    while lenCounter < length:
+        # getting random tuple from ngram_dict[genKey] // returns tuple --> line
+        line = random.choice(ngram_dict[genKey])
+        # manual appending to the output
+        for wiT in line:
+            output += (' ' + wiT)
+        lenCounter += len(line)
+        # next genkey
+        genKey = line[-1]
+        # checking if in set
+        if genKey not in keySet:
+            # setting new genKey
+            genKey = random.choice(keySet)
+            output += (' ' + genKey)
+            lenCounter += 1
+    return output
 
 # 50 Points
 def test2():
