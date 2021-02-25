@@ -33,11 +33,11 @@ def mybinsearch(lst: List[T], elem: S, compare: Callable[[T, S], int]) -> int:
     while low <= high:
         mid = low + high // 2
 
-        if compare(lst[mid], elem) == 1:
-            high = mid - 1
-
-        elif compare(lst[mid], elem) == 0:
+        if compare(lst[mid], elem) == 0:
             return mid
+
+        elif compare(lst[mid], elem) == 1:
+            high = mid -1
 
         else:
             low = mid +1
@@ -138,7 +138,7 @@ class PrefixSearcher():
         docu = self.document
         n = len(docu)
 
-        if len(q) > n:
+        if len(q) > len(self.document):
             raise Exception('q is longer than n')
 
         searchCMP = lambda a,b: 0 if (a[:len(q)] == b[:len(q)]) else (-1 if (a[:len(q)] < b[:len(q)]) else 1)
@@ -191,19 +191,24 @@ class SuffixArray():
         suffixCMP = lambda a,b: 0 if (a[1] == b[1]) else (-1 if (a[1] < b[-1]) else 1)
         listToSort = list(enumerate(self.suffixes))
         nextArray = mysort(lst = listToSort,compare=suffixCMP)
-        self.suffixArray = [x for x,y in nextArray]
-
+        self.suffixArray = [x for x,_ in nextArray]
 
     def positions(self, searchstr: str):
         docu = self.document
+        out = list()
         searchLength = len(searchstr)
         positionsCMP = lambda a,b: 0 if (docu[a:a+searchLength] == b) else (-1 if (docu[a:a+searchLength < b]) else 1)
         findElement = mybinsearch(lst=self.suffixArray, elem=searchstr, compare=positionsCMP)
-
         if findElement == -1:
             return []
+        for counter in range(0,len(self.suffixArray)):
+            codety = self.suffixArray[counter]
+            if docu[codety:codety+len(searchstr)] == searchstr:
+                out.append(codety)
+            else:
+                break
+        return out
 
-        
 
         """
         Returns all the positions of searchstr in the documented indexed by the suffix array.
@@ -212,13 +217,8 @@ class SuffixArray():
     def contains(self, searchstr: str):
         docu = self.document
         searchLength = len(searchstr)
-        containsCMP = lambda a,b: 0 if (docu[a:a+searchLength] == b) else (-1 if (docu[a:a+searchLength < b]) else 1)
-        findElement = mybinsearch(lst=self.suffixArray, elem=searchstr, compare=containsCMP)
-
-        if findElement == -1: 
-            return False
-        else:
-            return True
+        containsCMP = lambda a,b: 0 if (docu[a:a+searchLength] == b) else (-1 if (docu[a:a+searchLength] < b) else 1)
+        return (mybinsearch(lst=self.suffixArray, elem=searchstr, compare=containsCMP) != -1)
 
 # 40 Points
 def test3():
